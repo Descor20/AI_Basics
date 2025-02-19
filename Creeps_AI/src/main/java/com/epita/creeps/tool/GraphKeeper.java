@@ -1,9 +1,16 @@
 package com.epita.creeps.tool;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonPropertyOrder({"entries", "exit"})
 public class GraphKeeper {
+    @JsonIgnore
+    int id;
+
     List<Graph> entries;
     List<Graph> exit;
 

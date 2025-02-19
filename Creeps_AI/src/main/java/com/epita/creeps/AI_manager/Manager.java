@@ -28,8 +28,8 @@ public class Manager {
             }
         }
 
-        keeper.setEntries(schema.getFirst());
-        keeper.setExit(schema.getLast());
+        keeper.setEntries(schema.get(0));
+        keeper.setExit(schema.get(schema.size() - 1));
         return keeper;
     }
 }

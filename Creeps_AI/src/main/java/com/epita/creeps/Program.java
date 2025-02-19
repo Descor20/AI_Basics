@@ -2,6 +2,7 @@ package com.epita.creeps;
 
 import com.epita.creeps.AI_manager.ExitCodes.XOR;
 import com.epita.creeps.AI_manager.Manager;
+import com.epita.creeps.AI_manager.Memory.JSON_Memory;
 import com.epita.creeps.tool.Graph;
 import com.epita.creeps.tool.GraphKeeper;
 
@@ -30,5 +31,7 @@ public class Program {
         System.out.println("[Program]{Tester XOR} : The result is " + result.toString().toLowerCase());
         System.out.println("\texit1 value was :" + exit1);
         System.out.println("\texit2 value was :" + exit2);
+
+        JSON_Memory.write(keeper, "save1");
     }
 }
