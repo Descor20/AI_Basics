@@ -32,21 +32,55 @@ public class Manager {
             }
         }
 
-        keeper.setEntries(schema.get(0));
-        keeper.setExit(schema.get(schema.size() - 1));
+        if (!schema.isEmpty())
+            keeper.setEntries(schema.get(0));
+        if (!schema.isEmpty())
+            keeper.setExit(schema.get(schema.size() - 1));
         return keeper;
     }
 
+
     /* ----- Graph Re-Constructor ----- */
+    /* - Data Retriever - */
+    public static GraphKeeper extract_bias(GraphKeeper keeper, GraphTemplate template) {
+        List<Graph> entry = keeper.getEntries();
+        for (int i = 0; i < template.getBias().size(); i++) {
+            for (int j = 0; j < template.getBias().get(i).size(); j++) {
+                entry.get(j).getActual().setBias(template.getBias().get(i).get(j));
+            }
+            entry = entry.get(0).getNext();
+        }
+        return keeper;
+    }
+    public static GraphKeeper extract_weight(GraphKeeper keeper, GraphTemplate template) {
+        List<Graph> entry = keeper.getEntries();
+        for (int i = 0; i < template.getBias().size(); i++) {
+            for (int j = 0; j < template.getBias().get(i).size(); j++) {
+                entry.get(j).getActual().setWeights(template.getWeigth().get(i).get(j));
+            }
+            entry = entry.get(0).getNext();
+        }
+        return keeper;
+    }
+
+    /* - Re-Constructor - */
     public static GraphKeeper from(GraphTemplate template) {
         if (template == null) {
             System.err.println("[MemoryManager]{to keeper} :template was empty or null.");
             return null;
         }
 
-        //TODO
-        return null;
+        List<Integer> model = new ArrayList<>();
+        for (int i = 0; i < template.getBias().size(); i++) {
+            model.add(template.bias.get(i).size());
+        }
+
+        GraphKeeper keeper = create_layer(model);
+        keeper = extract_bias(keeper, template);
+        keeper = extract_weight(keeper, template);
+        return keeper;
     }
+
 
     /* ----- Graph Saver ----- */
     /* - Data Saver - */
@@ -60,7 +94,6 @@ public class Manager {
         template.bias.add(line);
         return template;
     }
-
     private static GraphTemplate place_weight(GraphTemplate template, List<Graph> graphs) {
         List<List<Double>> list = new ArrayList<>();
         for (int i = 0; i < graphs.size(); i++) {

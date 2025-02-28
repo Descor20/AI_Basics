@@ -16,6 +16,7 @@ import java.util.List;
 
 public class JSON_Memory {
 
+    /* ----- Converter methods ----- */
     public static String toJson(GraphKeeper keeper) {
         if (keeper == null)
             return null;
@@ -34,13 +35,14 @@ public class JSON_Memory {
             return null;
         final ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.readValue(json, GraphKeeper.class);
+            return Manager.from(mapper.readValue(json, GraphTemplate.class));
         } catch (IOException e) {
             System.err.println("[JsonMemory]{fromJson} :The mapper failed to map the keeper");
             return null;
         }
     }
 
+    /* ----- Writing methods ----- */
     public static boolean write(String text, String path) {
         Path file = Paths.get(path);
         if (file == null) {
@@ -67,6 +69,7 @@ public class JSON_Memory {
         return write(json, path);
     }
 
+    /* ----- Reading methods ----- */
     public static String read_text(String path) {
         Path file = Paths.get(path);
         if (file == null) {
