@@ -1,5 +1,7 @@
 package com.epita.creeps.AI_manager.Memory;
 
+import com.epita.creeps.AI_manager.Manager;
+import com.epita.creeps.AI_manager.template.GraphTemplate;
 import com.epita.creeps.tool.GraphKeeper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +20,9 @@ public class JSON_Memory {
         if (keeper == null)
             return null;
         final ObjectMapper mapper = new ObjectMapper();
+        final GraphTemplate template = Manager.to(keeper);
         try {
-            return mapper.writeValueAsString(keeper);
+            return mapper.writeValueAsString(template);
         } catch (JsonProcessingException e) {
             System.err.println("[JsonMemory]{toJson} :The mapper failed to map the keeper");
             throw new RuntimeException(e);

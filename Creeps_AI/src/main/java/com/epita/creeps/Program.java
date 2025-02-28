@@ -21,10 +21,8 @@ public class Program {
         entries.add(0.0);
         entries.add(1.0);
 
-        GraphTemplate template = Manager.to(keeper);
-        System.out.println("");
-        /*
         keeper.save("save1");
+        /*
         keeper = GraphKeeper.retrieve("save1"); // Don't work, is it a copy !?
 
         keeper.evaluate_all(entries);
@@ -42,6 +40,5 @@ public class Program {
         keeper.save("save1");
         System.out.println(JSON_Memory.read_text("save1"));
         */
-
     }
 }
