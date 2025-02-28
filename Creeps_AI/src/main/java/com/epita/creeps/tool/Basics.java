@@ -3,6 +3,7 @@ package com.epita.creeps.tool;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.random;
@@ -21,6 +22,14 @@ public class Basics {
                 i = 0;
         }
         return i == object.length();
+    }
+
+    public static List<Double> copy_D(List<Double> ToCopy) {
+        if (ToCopy == null)
+            return null;
+        List<Double> exit = new ArrayList<>();
+        exit.addAll(ToCopy);
+        return exit;
     }
 
     /* Maths Methods */
@@ -111,6 +120,14 @@ public class Basics {
                 return true;
         }
         return false;
+    }
+
+    public static List<Graph> copy_G(List<Graph> ToCopy) {
+        if (ToCopy == null)
+            return null;
+        List<Graph> exit = new ArrayList<>();
+        exit.addAll(ToCopy);
+        return exit;
     }
 
     /* Pseudo Random */
