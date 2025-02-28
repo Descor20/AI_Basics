@@ -7,6 +7,32 @@ public class Node {
     public Double bias;
     List<Double> weights;
 
+    /* Getter */
+    public Double getBias() {
+        return bias;
+    }
+
+    public List<Double> getWeights() {
+        return weights;
+    }
+
+    /* Setter */
+    public void setBias(Double bias) {
+        this.bias = bias;
+    }
+
+    public void setWeights(List<Double> weights) {
+        this.weights = weights;
+    }
+    public void random_weight(int nb) {
+        if (weights == null)
+            weights = new ArrayList<>();
+        for (int i = 0; i < nb; i++) {
+            weights.add(Basics.to_Double(Basics.Random(-50, 50)));
+        }
+    }
+
+    /* Constructor */
     public Node() {
         bias = Basics.to_Double(Basics.Random(-50, 50));
         weights = new ArrayList<>();
@@ -20,13 +46,5 @@ public class Node {
     public Node(Double bias, List<Double> weights) {
         this.bias = bias;
         this.weights = weights;
-    }
-
-    public void random_weight(int nb) {
-        if (weights == null)
-            weights = new ArrayList<>();
-        for (int i = 0; i < nb; i++) {
-            weights.add(Basics.to_Double(Basics.Random(-50, 50)));
-        }
     }
 }

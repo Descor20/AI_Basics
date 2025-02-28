@@ -104,6 +104,15 @@ public class Basics {
         return start_x == -1 || start_y == -1;
     }
 
+    /* Graph Methods */
+    public static boolean contains (List<Graph> l, int id) {
+        for (Graph g : l) {
+            if (g.id == id)
+                return true;
+        }
+        return false;
+    }
+
     /* Pseudo Random */
     public synchronized static int Random() {
         if (_seed == 0)

@@ -20,6 +20,9 @@ public class Program {
         entries.add(0.0);
         entries.add(1.0);
 
+        keeper.save("save1");
+        keeper = GraphKeeper.retrieve("save1"); // Don't work, is it a copy !?
+
         keeper.evaluate_all(entries);
         List<Graph> exit = keeper.getExit();
 
@@ -32,6 +35,7 @@ public class Program {
         System.out.println("\texit1 value was :" + exit1);
         System.out.println("\texit2 value was :" + exit2);
 
-        JSON_Memory.write(keeper, "save1");
+        keeper.save("save1");
+        System.out.println(JSON_Memory.read_text("save1"));
     }
 }

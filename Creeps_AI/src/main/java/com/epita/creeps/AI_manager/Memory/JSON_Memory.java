@@ -21,7 +21,8 @@ public class JSON_Memory {
         try {
             return mapper.writeValueAsString(keeper);
         } catch (JsonProcessingException e) {
-            return null;
+            System.err.println("[JsonMemory]{toJson} :The mapper failed to map the keeper");
+            throw new RuntimeException(e);
         }
     }
 
@@ -32,14 +33,17 @@ public class JSON_Memory {
         try {
             return mapper.readValue(json, GraphKeeper.class);
         } catch (IOException e) {
+            System.err.println("[JsonMemory]{fromJson} :The mapper failed to map the keeper");
             return null;
         }
     }
 
     public static boolean write(String text, String path) {
         Path file = Paths.get(path);
-        if (file == null)
+        if (file == null) {
+            System.err.println("[JsonMemory]{write -> text} :Could not open the file");
             return false;
+        }
 
         List<String> lines = new ArrayList<>();
         lines.add(text);
@@ -47,6 +51,7 @@ public class JSON_Memory {
         try {
             Files.write(file, lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
+            System.err.println("[JsonMemory]{write -> text} :The write methods didn't work,\n -> please check the arguments");
             return false;
         }
         return true;
@@ -54,19 +59,24 @@ public class JSON_Memory {
 
     public static boolean write(GraphKeeper keeper, String path) {
         String json = toJson(keeper);
+        if (json == null)
+            System.err.println("[JsonMemory]{write -> keeper} :The toJson methods didn't work,\n -> please check the arguments");
         return write(json, path);
     }
 
     public static String read_text(String path) {
         Path file = Paths.get(path);
-        if (file == null)
+        if (file == null) {
+            System.err.println("[JsonMemory]{read -> text} :Could not open the file");
             return null;
+        }
 
         try {
             List<String> lines = Files.readAllLines(file);
             String text = String.join("\n", lines);
             return text;
         } catch (IOException e) {
+            System.err.println("[JsonMemory]{read -> text} :The read methods didn't work,\n -> please check the arguments");
             return null;
         }
     }
