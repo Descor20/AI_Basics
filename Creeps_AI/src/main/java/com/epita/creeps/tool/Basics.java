@@ -73,6 +73,8 @@ public class Basics {
         return (x >= 0) ? x : -x;
     }
 
+    public static L
+
     /* Move Methods */
     public static Double euclidian_distance(int start_x, int start_y, int end_x, int end_y) {
         return Math.sqrt(Math.pow(start_x - end_x, 2) + Math.pow(start_y - end_y, 2));

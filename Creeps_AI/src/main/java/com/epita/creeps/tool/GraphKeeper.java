@@ -47,6 +47,15 @@ public class GraphKeeper {
         return true;
     }
 
+    public boolean apply_correction(List<Double> expected, Double LearningRate) {
+        if (expected == null || exit == null || exit.isEmpty() || expected.isEmpty() || expected.size() != exit.size()) {
+            System.err.println("[AI manager]{Apply Correction} :The expected doesn't match the requiered number of exit.");
+            return false;
+        }
+        //TODO : Implement function
+        return true;
+    }
+
 
     /* Memory Methods */
     public void save(String path) {
