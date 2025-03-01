@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.exp;
 import static java.lang.Math.random;
 
 public class Basics {
@@ -73,7 +74,9 @@ public class Basics {
         return (x >= 0) ? x : -x;
     }
 
-    public static L
+    public static Double Sigmoid(Double x) {
+        return 1 / (1 + exp(x));
+    }
 
     /* Move Methods */
     public static Double euclidian_distance(int start_x, int start_y, int end_x, int end_y) {
