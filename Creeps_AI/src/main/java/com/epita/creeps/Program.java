@@ -46,9 +46,9 @@ public class Program {
         expected.add(1.0);
         expected.add(0.0);
 
-        for (double i = 0.0; i < Double.MAX_VALUE; i++) {
-            entries.set(0, Basics.binarise(Basics.RandomD(0.0, 1.0)));
-            entries.set(1, Basics.binarise(Basics.RandomD(0.0, 1.0)));
+        for (double i = 0.0; i < 10000; i++) {
+            entries.set(0, Basics.binariseDizaine(Basics.RandomD(0.0, 10.0)));
+            entries.set(1, Basics.binariseDizaine(Basics.RandomD(0.0, 10.0)));
             //sleep(1);
             /* Learning */
             expected.set(0, (!entries.get(0).equals(entries.get(1))) ? 1.0 : 0.0);

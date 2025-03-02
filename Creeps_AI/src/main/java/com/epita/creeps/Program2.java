@@ -9,46 +9,104 @@ import com.epita.creeps.tool.GraphKeeper;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 public class Program2 {
-    public static void main(String[] args) {
-        System.out.println("Retrieving the graph");
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("Retrieving the graph\n");
         GraphKeeper keeper = JSON_Memory.read_graph("save2");
-        System.out.println("The test is starting");
+        System.out.println("The test is starting\n");
 
         double sucess = 0.0;
         double tryed = 0.0;
+        /* Create default entries */
         List<Double> entries = new ArrayList<>();
         entries.add(0.0);
         entries.add(0.0);
-        ArrayList<Double> expected = new ArrayList<>(2);
+        ArrayList<Double> expected = new ArrayList<>();
         expected.add(0.0);
         expected.add(0.0);
-        for (double i = 0.0; i < 10000; i++) {
-            /* Define Result and Test */
-            entries.set(0, Basics.binarise(Basics.RandomD(0.0, 1.0)));
-            entries.set(1, Basics.binarise(Basics.RandomD(0.0, 1.0)));
-            expected.set(0, (!entries.get(0).equals(entries.get(1))) ? 1.0 : 0.0);
-            expected.set(1, (!entries.get(0).equals(entries.get(1))) ? 0.0 : 1.0);
 
-            System.out.println("The entries are " + entries.get(0) + " / " + entries.get(1));
+        /* Create Variable Storage */
+        List<Graph> exit;
+        Double exit1;
+        Double exit2;
+        XOR result;
+        XOR result_;
 
-            /* Launch test */
-            keeper.evaluate_all(entries);
+        /* Evaluate Once */
+        entries.set(0, 0.0);
+        entries.set(1, 0.0);
+        expected.set(0, 0.0);
+        expected.set(1, 1.0);
+        keeper.evaluate_all(entries);
+        exit = keeper.getExit();
 
-            /* Get Answers */
-            List<Graph> exit = keeper.getExit();
-            Double exit1 = exit.get(0).getExit();
-            Double exit2 = exit.get(1).getExit();
-            XOR result = (exit1 >= exit2) ? XOR.TRUE : XOR.FALSE;
+        exit1 = exit.get(0).getExit();
+        exit2 = exit.get(1).getExit();
 
-            /* Compare Answers */
-            XOR result_expect = (expected.get(0) >= expected.get(1)) ? XOR.TRUE : XOR.FALSE;
-            tryed++;
-            if (result_expect == result)
-                sucess++;
-        }
+        result = (exit1 >= exit2) ? XOR.TRUE : XOR.FALSE;
+        result_ = (expected.get(0) >= expected.get(1)) ? XOR.TRUE : XOR.FALSE;
 
-        System.out.println("The test is finished :\n\tAttempt :" + tryed + "\n\tSuccess :" + sucess);
+        System.out.println("[Program]{Tester XOR} : The result is " + result.toString().toLowerCase() + " expected " + result_.toString().toLowerCase());
+        System.out.println("\texit1 value was :" + exit1);
+        System.out.println("\texit2 value was :" + exit2);
+
+        /* Evaluate Once */
+        entries.set(0, 1.0);
+        entries.set(1, 1.0);
+        expected.set(0, 0.0);
+        expected.set(1, 1.0);
+        keeper.evaluate_all(entries);
+        exit = keeper.getExit();
+
+        exit1 = exit.get(0).getExit();
+        exit2 = exit.get(1).getExit();
+
+        result = (exit1 >= exit2) ? XOR.TRUE : XOR.FALSE;
+        result_ = (expected.get(0) >= expected.get(1)) ? XOR.TRUE : XOR.FALSE;
+
+        System.out.println("[Program]{Tester XOR} : The result is " + result.toString().toLowerCase() + " expected " + result_.toString().toLowerCase());
+        System.out.println("\texit1 value was :" + exit1);
+        System.out.println("\texit2 value was :" + exit2);
+
+        /* Evaluate Once */
+        entries.set(0, 0.0);
+        entries.set(1, 1.0);
+        expected.set(0, 1.0);
+        expected.set(1, 0.0);
+        keeper.evaluate_all(entries);
+        exit = keeper.getExit();
+
+        exit1 = exit.get(0).getExit();
+        exit2 = exit.get(1).getExit();
+
+        result = (exit1 >= exit2) ? XOR.TRUE : XOR.FALSE;
+        result_ = (expected.get(0) >= expected.get(1)) ? XOR.TRUE : XOR.FALSE;
+
+        System.out.println("[Program]{Tester XOR} : The result is " + result.toString().toLowerCase() + " expected " + result_.toString().toLowerCase());
+        System.out.println("\texit1 value was :" + exit1);
+        System.out.println("\texit2 value was :" + exit2);
+
+        /* Evaluate Once */
+        entries.set(0, 1.0);
+        entries.set(1, 0.0);
+        expected.set(0, 1.0);
+        expected.set(1, 0.0);
+        keeper.evaluate_all(entries);
+        exit = keeper.getExit();
+
+        exit1 = exit.get(0).getExit();
+        exit2 = exit.get(1).getExit();
+
+        result = (exit1 >= exit2) ? XOR.TRUE : XOR.FALSE;
+        result_ = (expected.get(0) >= expected.get(1)) ? XOR.TRUE : XOR.FALSE;
+
+        System.out.println("[Program]{Tester XOR} : The result is " + result.toString().toLowerCase() + " expected " + result_.toString().toLowerCase());
+        System.out.println("\texit1 value was :" + exit1);
+        System.out.println("\texit2 value was :" + exit2);
+
+        //System.out.println("The test is finished :\n\tAttempt :" + tryed + "\n\tSuccess :" + sucess);
 
     }
 }

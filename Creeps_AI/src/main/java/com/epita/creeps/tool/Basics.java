@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static java.lang.Math.exp;
 import static java.lang.Math.random;
@@ -90,10 +91,20 @@ public class Basics {
         return x;
     }
     public static Double mod(Double x, Double borne) {
-        x %= borne;
+        //System.out.println(x);
+        while (x > borne) {
+            //System.out.println("----<>" + x);
+            //System.out.println("----<!>" + borne);
+            //System.out.println("---(>" +x + " (" + borne + ")");
+            x -= borne;
+        }
         while (x < 0) {
+            //System.out.println("---)>" +x + " (" + borne + ")");
+            //System.out.println("----<>" + x);
+            //System.out.println("----<!>" + borne);
             x += borne;
         }
+        //System.out.println("->" +x + " (" + borne + ")");
         return x;
     }
 
@@ -102,6 +113,9 @@ public class Basics {
     }
     public static Double binarise(Double x) {
         return (abs(x - 1) <= (abs(x))) ? 1.0 : 0.0;
+    }
+    public static Double binariseDizaine(Double x) {
+        return (abs(x - 10) <= (abs(x))) ? 1.0 : 0.0;
     }
 
     /* Move Methods */
@@ -168,10 +182,11 @@ public class Basics {
         _seed =  RoundDown(_seed * LocalTime.now().getMinute() + LocalTime.now().getNano() * (-1 * (random() % 2)));
         return _seed;
     }
-    public synchronized static Double RandomD() {
+    public synchronized static Double RandomD() { //TODO :fix by finding better RANDOM
         if (_seedD == 0)
             _seedD = to_Double(LocalTime.now().getSecond());
-        _seedD =  _seedD * LocalTime.now().getMinute() + LocalTime.now().getNano() * (-1 * (random() % 2));
+        //_seedD =  (_seedD * to_Double(LocalTime.now().getMinute())) * (LocalTime.now().getSecond() > 1 ? 0.0 : 0.00001) + to_Double(LocalTime.now().getNano()) * (-1.0 * (mod(random(), 2.0)));
+        _seedD = to_Double(LocalTime.now().getNano() / 100);
         return _seedD;
     }
 
@@ -184,7 +199,7 @@ public class Basics {
         }
         if (_seedD == 0)
             _seedD = to_Double(LocalTime.now().getSecond());
-        Random();
+        RandomD();
         return mod(_seedD, max);
     }
     public synchronized static int Random(int max) {
@@ -201,7 +216,8 @@ public class Basics {
     }
 
     public synchronized static Double RandomD(Double min, Double max) {
-        if (min == max) {
+        if (Objects.equals(min, max)) {
+            System.err.println("[Basics]{RandomD} :The given values are the same.");
             return min;
         }
         if (min > max) {
@@ -210,11 +226,14 @@ public class Basics {
         }
         if (_seedD == 0)
             _seedD = to_Double(LocalTime.now().getSecond());
-        Random();
+        RandomD();
         Double tmp = mod(_seedD, max);
+        //System.out.println("-->" + tmp);
         while (tmp < min) {
             tmp += abs(max-min);
+            //System.out.println("---->" + tmp);
         }
+        //System.out.println("-->" + tmp);
         return tmp;
     }
     public synchronized static int Random(int min, int max) {
