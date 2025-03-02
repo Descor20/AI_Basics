@@ -11,7 +11,7 @@ import static java.lang.Math.random;
 
 public class Basics {
     public static int _seed;
-    public static Double _seedD;
+    public static double _seedD;
 
     /* List and String Methods */
     public static boolean contain(String wrapper, String object) {
@@ -95,6 +95,13 @@ public class Basics {
             x += borne;
         }
         return x;
+    }
+
+    public static int binarise(int x) {
+        return (abs(x - 1) <= (abs(x))) ? 1 : 0;
+    }
+    public static Double binarise(Double x) {
+        return (abs(x - 1) <= (abs(x))) ? 1.0 : 0.0;
     }
 
     /* Move Methods */

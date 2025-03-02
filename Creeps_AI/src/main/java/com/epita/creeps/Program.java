@@ -42,14 +42,18 @@ public class Program {
         System.out.println("\texit1 value was :" + exit1);
         System.out.println("\texit2 value was :" + exit2);
 
+        ArrayList<Double> expected = new ArrayList<>();
+        expected.add(1.0);
+        expected.add(0.0);
+
         for (double i = 0.0; i < Double.MAX_VALUE; i++) {
-            Double one = Basics.Random();
+            entries.set(0, Basics.binarise(Basics.RandomD(0.0, 1.0)));
+            entries.set(1, Basics.binarise(Basics.RandomD(0.0, 1.0)));
             //sleep(1);
             /* Learning */
-            ArrayList<Double> expected = new ArrayList<>();
-            expected.add(1.0);
-            expected.add(0.0);
-            System.out.println("Learning sucess :" + keeper.apply_correction(expected,0.01));
+            expected.set(0, (!entries.get(0).equals(entries.get(1))) ? 1.0 : 0.0);
+            expected.set(1, (!entries.get(0).equals(entries.get(1))) ? 0.0 : 1.0);
+            System.out.println("Learning sucess :" + keeper.apply_correction(expected,0.001));
 
             /* Evaluate Twice */
             keeper.evaluate_all(entries);
@@ -60,9 +64,9 @@ public class Program {
 
             result = (exit1 >= exit2) ? XOR.TRUE : XOR.FALSE;
 
-            System.out.println("[Program]{Tester XOR} : The result is " + result.toString().toLowerCase());
-            System.out.println("\texit1 value was :" + exit1);
-            System.out.println("\texit2 value was :" + exit2);
+            //System.out.println("[Program]{Tester XOR} : The result is " + result.toString().toLowerCase());
+            //System.out.println("\texit1 value was :" + exit1);
+            //System.out.println("\texit2 value was :" + exit2);
 
             JSON_Memory.write(keeper, "save2");
         }
