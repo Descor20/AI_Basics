@@ -4,11 +4,13 @@ import com.epita.creeps.AI_manager.ExitCodes.XOR;
 import com.epita.creeps.AI_manager.Manager;
 import com.epita.creeps.AI_manager.Memory.JSON_Memory;
 import com.epita.creeps.AI_manager.template.GraphTemplate;
+import com.epita.creeps.tool.Basics;
 import com.epita.creeps.tool.Graph;
 import com.epita.creeps.tool.GraphKeeper;
 
 import java.lang.reflect.Member;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
@@ -20,7 +22,7 @@ public class Program {
         layers.add(2);
         layers.add(2);
         GraphKeeper keeper = Manager.create_layer(layers);
-        keeper = JSON_Memory.read_graph("save1");
+        //keeper = JSON_Memory.read_graph("save1"); -> Using the Graoh of the Book
 
         /* Create default entries */
         List<Double> entries = new ArrayList<>();
@@ -40,7 +42,8 @@ public class Program {
         System.out.println("\texit1 value was :" + exit1);
         System.out.println("\texit2 value was :" + exit2);
 
-        for (int i = 0; i < 50000; i++) {
+        for (double i = 0.0; i < Double.MAX_VALUE; i++) {
+            Double one = Basics.Random();
             //sleep(1);
             /* Learning */
             ArrayList<Double> expected = new ArrayList<>();
@@ -60,6 +63,8 @@ public class Program {
             System.out.println("[Program]{Tester XOR} : The result is " + result.toString().toLowerCase());
             System.out.println("\texit1 value was :" + exit1);
             System.out.println("\texit2 value was :" + exit2);
+
+            JSON_Memory.write(keeper, "save2");
         }
     }
 }

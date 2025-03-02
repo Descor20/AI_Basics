@@ -11,6 +11,7 @@ import static java.lang.Math.random;
 
 public class Basics {
     public static int _seed;
+    public static Double _seedD;
 
     /* List and String Methods */
     public static boolean contain(String wrapper, String object) {
@@ -73,13 +74,27 @@ public class Basics {
     public static int abs(int x) {
         return (x >= 0) ? x : -x;
     }
-
     public static Double abs(Double x) {
         return (x >= 0) ? x : -x;
     }
 
     public static Double Sigmoid(Double x) {
         return 1 / (1 + exp(x));
+    }
+
+    public static int mod(int x, int borne) {
+        x %= borne;
+        while (x < 0) {
+            x += borne;
+        }
+        return x;
+    }
+    public static Double mod(Double x, Double borne) {
+        x %= borne;
+        while (x < 0) {
+            x += borne;
+        }
+        return x;
     }
 
     /* Move Methods */
@@ -146,22 +161,71 @@ public class Basics {
         _seed =  RoundDown(_seed * LocalTime.now().getMinute() + LocalTime.now().getNano() * (-1 * (random() % 2)));
         return _seed;
     }
-
-    public synchronized static int Random(int max) {
-        if (_seed == 0)
-            _seed = LocalTime.now().getSecond();
-        Random();
-        return _seed % max;
+    public synchronized static Double RandomD() {
+        if (_seedD == 0)
+            _seedD = to_Double(LocalTime.now().getSecond());
+        _seedD =  _seedD * LocalTime.now().getMinute() + LocalTime.now().getNano() * (-1 * (random() % 2));
+        return _seedD;
     }
 
-    public synchronized static int Random(int min, int max) {
+    public synchronized static Double RandomD(Double max) {
+        if (max == 0.0)
+            return 0.0;
+        if (max < 0.0) {
+            System.err.println("[Basics]{RandomD} :The given value max isn't possible for this operation.");
+            return -1.0;
+        }
+        if (_seedD == 0)
+            _seedD = to_Double(LocalTime.now().getSecond());
+        Random();
+        return mod(_seedD, max);
+    }
+    public synchronized static int Random(int max) {
+        if (max == 0)
+            return 0;
+        if (max < 0.0) {
+            System.err.println("[Basics]{Random} :The given value max isn't possible for this operation.");
+            return -1;
+        }
         if (_seed == 0)
             _seed = LocalTime.now().getSecond();
         Random();
-        int res = _seed % max;
-        while (res < min)
-            res++;
-        return res;
+        return mod(_seed, max);
+    }
+
+    public synchronized static Double RandomD(Double min, Double max) {
+        if (min == max) {
+            return min;
+        }
+        if (min > max) {
+            System.err.println("[Basics]{RandomD} :The given values aren't possible for this operation.");
+            return -1.0;
+        }
+        if (_seedD == 0)
+            _seedD = to_Double(LocalTime.now().getSecond());
+        Random();
+        Double tmp = mod(_seedD, max);
+        while (tmp < min) {
+            tmp += abs(max-min);
+        }
+        return tmp;
+    }
+    public synchronized static int Random(int min, int max) {
+        if (min == max) {
+            return min;
+        }
+        if (min > max) {
+            System.err.println("[Basics]{Random} :The given values aren't possible for this operation.");
+            return -1;
+        }
+        if (_seed == 0)
+            _seed = LocalTime.now().getSecond();
+        Random();
+        int tmp = mod(_seed, max);
+        while (tmp < min) {
+            tmp += abs(max-min);
+        }
+        return tmp;
     }
 
     /* Cast Methods */
