@@ -74,6 +74,10 @@ public class Basics {
         return (x >= 0) ? x : -x;
     }
 
+    public static Double abs(Double x) {
+        return (x >= 0) ? x : -x;
+    }
+
     public static Double Sigmoid(Double x) {
         return 1 / (1 + exp(x));
     }

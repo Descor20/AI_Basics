@@ -41,7 +41,7 @@ public class GraphKeeper {
         int i = 0;
         for (Graph g : entries) {
             g.entry.add(entry.get(i));
-            g.evaluate();
+            g.evaluate(false);
             i++;
         }
         return true;
@@ -52,7 +52,9 @@ public class GraphKeeper {
             System.err.println("[AI manager]{Apply Correction} :The expected doesn't match the requiered number of exit.");
             return false;
         }
-        //TODO : Implement function
+        for (int i = 0; i < exit.size(); i++) {
+            exit.get(i).set_learning_exit(expected.get(i), i, LearningRate);
+        }
         return true;
     }
 

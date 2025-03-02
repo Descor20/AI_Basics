@@ -28,7 +28,7 @@ public class Node {
         if (weights == null)
             weights = new ArrayList<>();
         for (int i = 0; i < nb; i++) {
-            weights.add(Basics.to_Double(Basics.Random(-50, 50)));
+            weights.add(Basics.to_Double(Basics.Random(-3, 3)));
         }
     }
 
