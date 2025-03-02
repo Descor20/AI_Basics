@@ -53,7 +53,8 @@ public class Program {
             /* Learning */
             expected.set(0, (!entries.get(0).equals(entries.get(1))) ? 1.0 : 0.0);
             expected.set(1, (!entries.get(0).equals(entries.get(1))) ? 0.0 : 1.0);
-            System.out.println("Learning sucess :" + keeper.apply_correction(expected,0.001));
+            keeper.apply_correction(expected,0.001);
+            //System.out.println("Learning sucess :" + keeper.apply_correction(expected,0.001));
 
             /* Evaluate Twice */
             keeper.evaluate_all(entries);
@@ -69,6 +70,7 @@ public class Program {
             //System.out.println("\texit2 value was :" + exit2);
 
             JSON_Memory.write(keeper, "save2");
+            sleep(1);
         }
     }
 }
