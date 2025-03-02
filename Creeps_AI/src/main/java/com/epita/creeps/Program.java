@@ -20,6 +20,7 @@ public class Program {
         /* Create IA Graph */
         List<Integer> layers = new ArrayList<>();
         layers.add(2);
+        layers.add(3);
         layers.add(2);
         GraphKeeper keeper = Manager.create_layer(layers);
         //keeper = JSON_Memory.read_graph("save1"); -> Using the Graoh of the Book
@@ -46,7 +47,7 @@ public class Program {
         expected.add(1.0);
         expected.add(0.0);
 
-        for (double i = 0.0; i < 10000; i++) {
+        for (double i = 0.0; i < 1000; i++) {
             entries.set(0, Basics.binariseDizaine(Basics.RandomD(0.0, 10.0)));
             entries.set(1, Basics.binariseDizaine(Basics.RandomD(0.0, 10.0)));
             //sleep(1);

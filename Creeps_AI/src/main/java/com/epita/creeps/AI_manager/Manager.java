@@ -28,7 +28,11 @@ public class Manager {
             for (int j = 0; j < layers.get(i); j++) {
                 schema.get(i).get(j).setNext(schema.get(i+1));
                 schema.get(i).get(j).random_weight(schema.get(i+1).size());
-                schema.get(i+1).get(j).setPrevious(schema.get(i));
+            }
+        }
+        for (int i = 1; i < layers.size(); i++) {
+            for (int j = 0; j < layers.get(i); j++) {
+                schema.get(i).get(j).setPrevious(schema.get(i-1));
             }
         }
 
