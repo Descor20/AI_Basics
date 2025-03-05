@@ -177,7 +177,7 @@ public class Graph {
         return res;
     }
 
-    public void set_learning_exit(Double expected, int index, Double learning_rate) {
+    public synchronized void set_learning_exit(Double expected, int index, Double learning_rate) {
         Double Error_Rate = expected - exit;
         List<Double> previous_influence = new ArrayList<>();
 
@@ -189,7 +189,7 @@ public class Graph {
         for (int i = 0; i < previous.size(); i++) {
             previous.get(i).ErrorsInfluence.add(previous_influence.get(i));
             previous.get(i).NextErrors.add(Error_Rate);
-            previous.get(i).learningHidden(i, learning_rate);
+            //previous.get(i).learningHidden(i, learning_rate);
         }
 
         // -Erase variables
@@ -197,7 +197,7 @@ public class Graph {
         NextErrors = new ArrayList<>();
     }
 
-    public void learningHidden(int index, Double learning_rate) {
+    public synchronized void learningHidden(int index, Double learning_rate) {
         if (next.size() == ErrorsInfluence.size()) {
             Double Error_Rate = 0.0;
             for (int i = 0; i < next.size(); i++) {
@@ -218,10 +218,13 @@ public class Graph {
             for (int i = 0; i < previous.size(); i++) {
                 previous.get(i).ErrorsInfluence.add(previous_influence.get(i));
                 previous.get(i).NextErrors.add(Error_Rate);
-                previous.get(i).learningHidden(i, learning_rate);
+                //previous.get(i).learningHidden(i, learning_rate);
             }
             for (int i = 0; i < next.size(); i++) {
-                actual.weights.set(i, getActual().weights.get(i) - (NextErrors.get(i) * ErrorsInfluence.get(i)) * learning_rate);
+                actual.weights.set(i,
+                        getActual().weights.get(i) -
+                        (NextErrors.get(i) *
+                                ErrorsInfluence.get(i)) * learning_rate);
             }
 
             // -Erase variables

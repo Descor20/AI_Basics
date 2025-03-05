@@ -22,11 +22,11 @@ public class Node {
     }
 
     /* Setter */
-    public void setBias(Double bias) {
+    public synchronized void setBias(Double bias) {
         this.bias = bias;
     }
 
-    public void setWeights(List<Double> weights) {
+    public synchronized void setWeights(List<Double> weights) {
         this.weights = weights;
     }
     public void random_weight(int nb) {

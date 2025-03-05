@@ -52,8 +52,53 @@ public class GraphKeeper {
             System.err.println("[AI manager]{Apply Correction} :The expected doesn't match the requiered number of exit.");
             return false;
         }
-        for (int i = 0; i < exit.size(); i++) {
-            exit.get(i).set_learning_exit(expected.get(i), i, LearningRate);
+        List<Graph> layer = exit;
+        List<Thread> list_t = new ArrayList<>();
+        for (int i = 0; i < layer.size(); i++) {
+            Graph g = layer.get(i);
+            final int index = i;
+            Thread t = new Thread(() -> {
+                g.set_learning_exit(expected.get(index), index, LearningRate);
+            });
+            list_t.add(t);
+        }
+        for (int i = 0; i < list_t.size(); i++) {
+            list_t.get(i).start();
+        }
+        for (int i = 0; i < list_t.size(); i++) {
+            Thread t = list_t.get(i);
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        //System.out.println("All joigned exit !");
+        layer = layer.get(0).previous;
+
+        while (layer != null && !layer.isEmpty()) {
+            list_t = new ArrayList<>();
+            for (int i = 0; i < layer.size(); i++) {
+                Graph g = layer.get(i);
+                final int index = i;
+                Thread t = new Thread(() -> {
+                    g.learningHidden(index, LearningRate);
+                });
+                list_t.add(t);
+            }
+            for (int i = 0; i < list_t.size(); i++) {
+                list_t.get(i).start();
+            }
+            for (int i = 0; i < list_t.size(); i++) {
+                Thread t = list_t.get(i);
+                try {
+                    t.join();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            //System.out.println("All joigned !");
+            layer = layer.get(0).previous;
         }
         return true;
     }

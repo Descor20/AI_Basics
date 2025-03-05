@@ -8,6 +8,7 @@ import com.epita.creeps.tool.Basics;
 import com.epita.creeps.tool.Graph;
 import com.epita.creeps.tool.GraphKeeper;
 
+import java.lang.reflect.Executable;
 import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -18,11 +19,30 @@ import static java.lang.Thread.sleep;
 public class Program {
     public static void main(String[] args) throws InterruptedException {
         /* Create IA Graph */
+        GraphKeeper keeper;
+        /*
         List<Integer> layers = new ArrayList<>();
         layers.add(2);
-        layers.add(3);
         layers.add(2);
         GraphKeeper keeper = Manager.create_layer(layers);
+        */
+        try {
+            keeper = JSON_Memory.read_graph("save2");
+            if (keeper == null) {
+                System.out.println("[RECREATING GRAPH]");
+                List<Integer> layers = new ArrayList<>();
+                layers.add(2);
+                layers.add(2);
+                keeper = Manager.create_layer(layers);
+            }
+        }
+        catch (Exception e) {
+            System.out.println("[RECREATING GRAPH]");
+            List<Integer> layers = new ArrayList<>();
+            layers.add(2);
+            layers.add(2);
+            keeper = Manager.create_layer(layers);
+        }
         //keeper = JSON_Memory.read_graph("save1"); -> Using the Graoh of the Book
 
         /* Create default entries */
@@ -47,18 +67,57 @@ public class Program {
         expected.add(1.0);
         expected.add(0.0);
 
-        Double max = 10000.0;
+        Double max = 100000.0;
 
         for (double i = 0.0; i < max; i++) {
             if (Basics.modcp(i, max / 1000.0) == 0.0)
                 System.out.println("\r---" + i * 100 / max + "%---\r");
-            entries.set(0, Basics.binariseDizaine(Basics.RandomD(0.0, 10.0)));
-            entries.set(1, Basics.binariseDizaine(Basics.RandomD(0.0, 10.0)));
+            /* Evaluate Once */
+
+            entries.set(0, 0.0);
+            entries.set(1, 0.0);
+            expected.set(0, 0.0);
+            expected.set(1, 1.0);
+            keeper.evaluate_all(entries);
+            keeper.apply_correction(expected,0.0001);
+
+
+            /* Evaluate Once */
+
+            entries.set(0, 1.0);
+            entries.set(1, 1.0);
+            expected.set(0, 0.0);
+            expected.set(1, 1.0);
+            keeper.evaluate_all(entries);
+            keeper.apply_correction(expected,0.0001);
+
+
+            /* Evaluate Once */
+
+            entries.set(0, 0.0);
+            entries.set(1, 1.0);
+            expected.set(0, 1.0);
+            expected.set(1, 0.0);
+            keeper.evaluate_all(entries);
+            keeper.apply_correction(expected,0.0001);
+
+
+            /* Evaluate Once */
+            entries.set(0, 1.0);
+            entries.set(1, 0.0);
+            expected.set(0, 1.0);
+            expected.set(1, 0.0);
+            keeper.evaluate_all(entries);
+            keeper.apply_correction(expected,0.0001);
+
+
+            //entries.set(0, Basics.binariseDizaine(Basics.RandomD(0.0, 10.0)));
+            //entries.set(1, Basics.binariseDizaine(Basics.RandomD(0.0, 10.0)));
             //sleep(1);
             /* Learning */
-            expected.set(0, (!entries.get(0).equals(entries.get(1))) ? 1.0 : 0.0);
-            expected.set(1, (!entries.get(0).equals(entries.get(1))) ? 0.0 : 1.0);
-            keeper.apply_correction(expected,0.001);
+            //expected.set(0, (!entries.get(0).equals(entries.get(1))) ? 1.0 : 0.0);
+            //expected.set(1, (!entries.get(0).equals(entries.get(1))) ? 0.0 : 1.0);
+            //keeper.apply_correction(expected,0.00001);
             //System.out.println("Learning sucess :" + keeper.apply_correction(expected,0.001));
 
             /* Evaluate Twice */
@@ -74,8 +133,8 @@ public class Program {
             //System.out.println("\texit1 value was :" + exit1);
             //System.out.println("\texit2 value was :" + exit2);
 
-            JSON_Memory.write(keeper, "save2");
-            sleep(1);
+            //sleep(1);
         }
+        JSON_Memory.write(keeper, "save2");
     }
 }
