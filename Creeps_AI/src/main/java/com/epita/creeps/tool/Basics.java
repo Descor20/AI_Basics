@@ -107,6 +107,23 @@ public class Basics {
         //System.out.println("->" +x + " (" + borne + ")");
         return x;
     }
+    public static Double modcp(Double x, Double borne) {
+        //System.out.println(x);
+        while (x >= borne) {
+            //System.out.println("----<>" + x);
+            //System.out.println("----<!>" + borne);
+            //System.out.println("---(>" +x + " (" + borne + ")");
+            x -= borne;
+        }
+        while (x < 0) {
+            //System.out.println("---)>" +x + " (" + borne + ")");
+            //System.out.println("----<>" + x);
+            //System.out.println("----<!>" + borne);
+            x += borne;
+        }
+        //System.out.println("->" +x + " (" + borne + ")");
+        return x;
+    }
 
     public static int binarise(int x) {
         return (abs(x - 1) <= (abs(x))) ? 1 : 0;

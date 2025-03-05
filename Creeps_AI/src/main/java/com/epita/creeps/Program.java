@@ -47,7 +47,11 @@ public class Program {
         expected.add(1.0);
         expected.add(0.0);
 
-        for (double i = 0.0; i < 1000; i++) {
+        Double max = 10000.0;
+
+        for (double i = 0.0; i < max; i++) {
+            if (Basics.modcp(i, max / 1000.0) == 0.0)
+                System.out.println("\r---" + i * 100 / max + "%---\r");
             entries.set(0, Basics.binariseDizaine(Basics.RandomD(0.0, 10.0)));
             entries.set(1, Basics.binariseDizaine(Basics.RandomD(0.0, 10.0)));
             //sleep(1);

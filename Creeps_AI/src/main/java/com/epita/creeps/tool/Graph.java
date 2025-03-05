@@ -217,6 +217,7 @@ public class Graph {
             }
             for (int i = 0; i < previous.size(); i++) {
                 previous.get(i).ErrorsInfluence.add(previous_influence.get(i));
+                previous.get(i).NextErrors.add(Error_Rate);
                 previous.get(i).learningHidden(i, learning_rate);
             }
             for (int i = 0; i < next.size(); i++) {
